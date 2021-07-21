@@ -34,23 +34,12 @@ export default {
       let container = document.getElementById('container');
 
       //camera
-      const width = 10;
-      const height = width * (container.clientHeight/container.clientWidth);
-      this.camera = new Three.OrthographicCamera(
-        width /-2,
-        width /2,
-        height /2,
-        height /-2,
-        1,
-        100
-      );
-      this.camera.position.set(10,10,10);
-      this.camera.lookAt(0,0,0);
+      this.camera = new Three.PerspectiveCamera(75,container.clientWidth/container.clientHeight,0.1,1000);
 
       //renderer
       this.renderer = new Three.WebGLRenderer({antialias: true});
       this.renderer.setSize(container.clientWidth, container.clientHeight);
-      this.renderer.setClearColor("white");
+      this.renderer.setClearColor("grey");
       container.appendChild(this.renderer.domElement);
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
