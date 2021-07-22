@@ -11,6 +11,7 @@
 
 import * as Three from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Stats from 'three/examples/js/libs/stats.min.js';
 
 
 export default {
@@ -21,9 +22,10 @@ export default {
       scene: null,
       camera: null,
       renderer: null,
-      t1:null,
       mouse:new Three.Vector2(),
       rayCaster:new Three.Raycaster(),
+      stats:null,
+      spheres:[],
     }
   },
   methods:{
@@ -48,9 +50,9 @@ export default {
       this.camera.position.set(0,0,10);
 
       //renderer
-      this.renderer = new Three.WebGLRenderer({antialias: true});
+      this.renderer = new Three.WebGLRenderer({powerPreference: "high-performance",antialias: true});
       this.renderer.setSize(container.clientWidth, container.clientHeight);
-      this.renderer.setClearColor(0x151616);
+      this.renderer.setClearColor(0xffffff, 0);
       container.appendChild(this.renderer.domElement);
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -59,14 +61,24 @@ export default {
       this.controls.enableZoom = true;
       this.controls.update();
 
-      //first pyramid
-      const t1Geo = new Three.ConeGeometry( 2, 3, 4 );
-      const t1Mat = new Three.MeshLambertMaterial( {color: 0x5E6262} );
-      this.t1 = new Three.Mesh( t1Geo, t1Mat );
-      this.t1.position.set(0,0,0);
-      this.t1.scale.set(1,1,1);
-      this.scene.add(this.t1);
-     
+      this.stats = new Stats()
+      container.appendChild( this.stats.dom );
+
+      //galaxy
+      var geoSphere = new Three.SphereGeometry(Math.random() * 1, 20, 20);
+      for (let i = 0; i < 500; i++) {
+        // randRadius = Math.random()*30+10;
+        let lumiereS = new Three.MeshPhongMaterial({
+            emissive: '#fff'
+        });
+        this.spheres.push(new Three.Mesh(geoSphere, lumiereS));
+      }
+
+      
+      for (let i = 0; i < this.spheres.length; i++) {
+        this.spheres[i].position.set(Math.random() * 600 - 300, Math.random() * 600 - 300, Math.random() * 600 - 300);
+        this.scene.add(this.spheres[i]);
+      }
 
     },
     resizeRenderer: function() {
@@ -77,7 +89,9 @@ export default {
     },
     animate: function() {
       requestAnimationFrame(this.animate);
+      this.stats.begin();
       this.renderer.render(this.scene, this.camera);
+			this.stats.end();
     },
 
   },
