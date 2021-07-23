@@ -17,9 +17,67 @@ export default {
 
 <style>
     #container{
+      background: black url(/img/stars.png) repeat;
+      position: absolute;
+      width:100%;
+      height: 100%;
       display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+      z-index: 0;
     } 
+    .twinkling {
+      width: 100%;
+      height: 100%;
+      background: transparent url(/img/twinkling.png) repeat;
+      background-size: 1000px 1000px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+      -moz-animation: move-background 70s linear infinite;
+      -ms-animation: move-background 70s linear infinite;
+      -o-animation: move-background 70s linear infinite;
+      -webkit-animation: move-background 70s linear infinite;
+      animation: move-background 70s linear infinite;
+    }
+    #intro{
+     
+      
+    }
+
+    @keyframes move-background {
+        from {
+            -webkit-transform: translate3d(0px, 0px, 0px);
+        }
+        to {
+            -webkit-transform: translate3d(1000px, 0px, 0px);
+        }
+    }
+
+    @-webkit-keyframes move-background {
+        from {
+            -webkit-transform: translate3d(0px, 0px, 0px);
+        }
+        to {
+            -webkit-transform: translate3d(1000px, 0px, 0px);
+        }
+    }
+
+    @-moz-keyframes move-background {
+        from {
+            -webkit-transform: translate3d(0px, 0px, 0px);
+        }
+        to {
+            -webkit-transform: translate3d(1000px, 0px, 0px);
+        }
+    }
+
+    @-webkit-keyframes move-background {
+        from {
+            -webkit-transform: translate3d(0px, 0px, 0px);
+        }
+        to {
+            -webkit-transform: translate3d(1000px, 0px, 0px);
+        }
+    }
 </style>
