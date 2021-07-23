@@ -9,9 +9,10 @@
 
 <script>
 
-import * as Three from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import Stats from 'three/examples/js/libs/stats.min.js';
+import * as Three from '../js/three';
+
+/*import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import Stats from 'three/examples/js/libs/stats.min.js';*/
 
 
 export default {
@@ -25,7 +26,7 @@ export default {
       mouse:new Three.Vector2(),
       rayCaster:new Three.Raycaster(),
       stats:null,
-      spheres:[],
+      galaxyMesh:null,
     }
   },
   methods:{
@@ -37,48 +38,50 @@ export default {
       let container = document.getElementById('container');
 
       //ambient light
-      const aL = new Three.AmbientLight(0xffffff,0.6);
+      const aL = new Three.AmbientLight(0xffffff,1);
       this.scene.add(aL);
 
-      //directional light
-      const dL = new Three.DirectionalLight(0xffffff,0.5);
-      dL.position.set(10,20,0);
-      this.scene.add(dL);
-
+    
       //camera
       this.camera = new Three.PerspectiveCamera(75,container.clientWidth/container.clientHeight,0.1,1000);
-      this.camera.position.set(0,0,10);
+      this.camera.position.x = 0
+      this.camera.position.y = 10
+      this.camera.position.z = 0
+      this.camera.lookAt(0, 0, 0)
 
       //renderer
-      this.renderer = new Three.WebGLRenderer({powerPreference: "high-performance",antialias: true});
+      //this.renderer = new Three.WebGLRenderer({powerPreference: "high-performance",antialias: true});
+      this.renderer = new Three.WebGLRenderer({powerPreference: "high-performance", antialias: false, stencil: false, depth: false});
+  
       this.renderer.setSize(container.clientWidth, container.clientHeight);
       this.renderer.setClearColor(0xffffff, 0);
       container.appendChild(this.renderer.domElement);
 
-      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+      /*this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       this.controls.enableDamping = true;
       this.controls.dampingFactor = 0.05;
       this.controls.enableZoom = true;
-      this.controls.update();
+      this.controls.update();*/
 
       this.stats = new Stats()
       container.appendChild( this.stats.dom );
 
-      //galaxy
-      var geoSphere = new Three.SphereGeometry(Math.random() * 1, 20, 20);
-      for (let i = 0; i < 500; i++) {
-        // randRadius = Math.random()*30+10;
-        let lumiereS = new Three.MeshPhongMaterial({
-            emissive: '#fff'
-        });
-        this.spheres.push(new Three.Mesh(geoSphere, lumiereS));
-      }
+      const commonCylinderGeometry = new Three.BoxGeometry( 20, 10,20 );
+                                                                      //1, 1, 20, 12, 0, true
 
-      
-      for (let i = 0; i < this.spheres.length; i++) {
-        this.spheres[i].position.set(Math.random() * 600 - 300, Math.random() * 600 - 300, Math.random() * 600 - 300);
-        this.scene.add(this.spheres[i]);
-      }
+      const darkCylinderTexture = new Three.TextureLoader().load('/textures/galaxy.jpg')
+      darkCylinderTexture.wrapS = Three.RepeatWrapping
+      darkCylinderTexture.wrapT = Three.MirroredRepeatWrapping
+      darkCylinderTexture.repeat.set(1, 1)
+
+      const darkCylinderMaterial = new Three.MeshLambertMaterial({
+          side: Three.BackSide,
+          map: darkCylinderTexture,
+          //blending: Three.AdditiveBlending,
+          opacity: 0.4
+      })
+      this.galaxyMesh = new Three.Mesh(commonCylinderGeometry, darkCylinderMaterial)
+      this.scene.add(this.galaxyMesh)
 
     },
     resizeRenderer: function() {
@@ -92,6 +95,7 @@ export default {
       this.stats.begin();
       this.renderer.render(this.scene, this.camera);
 			this.stats.end();
+
     },
 
   },
