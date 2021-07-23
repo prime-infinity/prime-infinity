@@ -7,12 +7,19 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <link rel="stylesheet" href="css\bootstrap.min.css">
+    <script src="js/three.js"></script>
+    <script src="js/postprocessing.min.js"></script>
+    <script type="module" src="js/app_part_1.js"></script>
+    <link rel="stylesheet" href="css/main.css">
   </head>
+
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+
+    <div id="base-space" class="background-container">
+        <div class="stars"></div>
+        <div class="twinkling"></div>
+    </div>
+
   </body>
+
 </html>
