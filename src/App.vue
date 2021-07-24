@@ -25,7 +25,7 @@ export default {
       z-index: 0;
     } 
     .twinkling {
-      width: 100%;
+      width: 1000px;
       height: 100%;
       background: transparent url(/img/twinkling.png) repeat;
       background-size: 1000px 1000px;
