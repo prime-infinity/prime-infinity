@@ -5,8 +5,15 @@
     </div>
     <!--<div class="twinkling"></div>-->
 
-    <div class="row" id="intro">
-      <h1 class="col-12">PRIME-INFINITY</h1>
+    <div class="row" id="textFloat">
+
+      <div class="appearOne">
+        <h1 class="col-12" style="font-size:200%;">prime-infinity</h1>
+      </div>
+      <div class="appearTwo">
+        <h4 class="col-12" style="font-size:100%;">The Universe in a man</h4>
+      </div>
+      
     </div>
 
   </div>
@@ -18,7 +25,7 @@
 import * as Three from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/js/libs/stats.min.js';
-
+import { gsap } from "gsap";
 
 export default {
   name: 'HelloPrime',
@@ -37,7 +44,19 @@ export default {
     }
   },
   methods:{
+    beginTextAni:function(){
 
+      setTimeout(() => {
+        gsap.to('.appearOne', {duration: 3, opacity: 1})
+
+        setTimeout(() => {
+          gsap.to('.appearTwo', {duration: 3, opacity: 1})
+        }, 1500);
+
+      }, 3000);
+
+      
+    },
     init: function() {
 
       //all the initialisation
@@ -147,6 +166,8 @@ export default {
       this.animate();
       window.addEventListener('resize', this.resizeRenderer)
       window.addEventListener('mousemove', this.mouseMoved)
+      this.beginTextAni();
+      
   },
 
 

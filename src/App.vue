@@ -16,6 +16,13 @@ export default {
 </script>
 
 <style>
+    @font-face {
+        font-family: mutablefont;
+        src: url(/font.ttf);
+    }
+    #app{
+        font-family: mutablefont;
+    }
     #container{
       background: black url(/img/stars.png) repeat;
       position: absolute;
@@ -40,9 +47,19 @@ export default {
       -webkit-animation: move-background 70s linear infinite;
       animation: move-background 70s linear infinite;
     }
-    #intro{
+    #textFloat{
      
-      
+        position:fixed;
+        top:50%;
+        color:white;
+        left: 50%;
+        transform: translate(-52%, -50%);
+        text-align: center;
+        width:100%;
+    }
+    .appearOne,
+    .appearTwo{
+        opacity: 0;
     }
 
     @keyframes move-background {
