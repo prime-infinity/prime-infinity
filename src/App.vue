@@ -53,7 +53,7 @@ export default {
         top:50%;
         color:white;
         left: 50%;
-        transform: translate(-52%, -50%);
+        transform: translate(-50%, -50%);
         text-align: center;
         width:100%;
     }

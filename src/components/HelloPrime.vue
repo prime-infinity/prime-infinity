@@ -5,13 +5,13 @@
     </div>
     <!--<div class="twinkling"></div>-->
 
-    <div class="row" id="textFloat">
+    <div class="" id="textFloat">
 
       <div class="appearOne">
-        <h1 class="col-12" style="font-size:200%;">prime-infinity</h1>
+        <h1 class="col-12" style="">prime-infinity</h1>
       </div>
       <div class="appearTwo">
-        <h4 class="col-12" style="font-size:100%;">The Universe in a man</h4>
+        <h4 class="col-12" style="">The Universe in a man</h4>
       </div>
       
     </div>
@@ -41,6 +41,7 @@ export default {
       box:null,
       stars1:null,
       stars2:null,
+      shootingS:null,
     }
   },
   methods:{
@@ -51,10 +52,16 @@ export default {
 
         setTimeout(() => {
           gsap.to('.appearTwo', {duration: 3, opacity: 1})
-        }, 1500);
+        }, 2000);
 
       }, 3000);
 
+
+      setTimeout(() => {
+
+        gsap.to(this.shootingS.position, {duration: 20,y:-12,x:-12,ease:"Expo.easeOut"});
+        
+      }, 5000);
       
     },
     init: function() {
@@ -62,7 +69,7 @@ export default {
       //all the initialisation
       this.scene = new Three.Scene();
       let container = document.getElementById('container');
-
+      
       //ambient light
       const aL = new Three.AmbientLight(0xffffff,1);
       this.scene.add(aL);
@@ -127,6 +134,15 @@ export default {
       this.stars2 = new Three.Points(geometrys[1], materials[1]);
       this.scene.add(this.stars1);
       this.scene.add(this.stars2);
+
+      //shootingS
+      const geometryy = new Three.ConeGeometry( 0.3, 15, 32 );
+      const materialy = new Three.MeshBasicMaterial( {color: "white"} );
+      this.shootingS = new Three.Mesh( geometryy, materialy );
+      this.shootingS.position.set(6,6,-4)
+      this.shootingS.scale.set(0.1,0.1,0.1);
+      this.shootingS.rotation.set(0,0,2.2)
+      this.scene.add( this.shootingS );
 
     },
     mouseMoved:function(e){
