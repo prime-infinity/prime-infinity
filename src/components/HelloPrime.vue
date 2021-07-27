@@ -161,7 +161,7 @@ export default {
       this.renderer.setSize(container.clientWidth, container.clientHeight);
       this.camera.aspect = container.clientWidth/container.clientHeight;
       this.camera.updateProjectionMatrix();
-
+      
     },
     animate: function() {
       requestAnimationFrame(this.animate);
@@ -169,10 +169,13 @@ export default {
       this.renderer.render(this.scene, this.camera);
 			this.stats.end();
 
-      this.stars1.position.x = this.mouse.x * 0.0001;
-      this.stars1.position.y = this.mouse.y * -0.0001;
+      this.stars1.position.x = this.mouse.x * 0.0002;
+      this.stars1.position.y = this.mouse.y * -0.0002;
       this.stars2.position.x = this.mouse.x * 0.0001;
       this.stars2.position.y = this.mouse.y * -0.0001;
+
+      this.stars1.rotation.z += 0.00015;
+      this.stars2.rotation.z += 0.00025;
 
     },
 
