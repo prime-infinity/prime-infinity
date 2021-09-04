@@ -3,7 +3,6 @@
   <div>
     <div id="container">
     </div>
-    <!--<div class="twinkling"></div>-->
 
     <div class="" id="textFloat">
 
@@ -42,6 +41,7 @@ export default {
       stars1:null,
       stars2:null,
       shootingS:null,
+      radius:6371,
     }
   },
   methods:{
@@ -79,14 +79,13 @@ export default {
       this.camera = new Three.PerspectiveCamera(75,container.clientWidth/container.clientHeight,0.1,1000);
       this.camera.position.x = 0
       this.camera.position.y = 0
-      this.camera.position.z = 2
-      //this.camera.lookAt(0, 0, 0)
+      this.camera.position.z = this.radius * 5;
 
       //renderer
-      this.renderer = new Three.WebGLRenderer({powerPreference: "high-performance",antialias: true, /*alpha: true,*/});
+      this.renderer = new Three.WebGLRenderer({powerPreference: "high-performance",antialias: true, });
   
       this.renderer.setSize(container.clientWidth, container.clientHeight);
-      this.renderer.setClearColor(0xffffff, 0);
+      this.renderer.setClearColor(0x000);
       container.appendChild(this.renderer.domElement);
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -103,6 +102,67 @@ export default {
       this.box = new Three.Mesh( geometry, material );
       //this.scene.add( this.box );
 
+
+      //stars
+
+      const r = this.radius;
+      const starsGeometry = [ new Three.BufferGeometry(), new Three.BufferGeometry() ];  
+      
+      const vertices1 = [];
+			const vertices2 = [];
+
+      const vertex = new Three.Vector3();
+
+
+      for ( let i = 0; i < 250; i ++ ) {
+
+        vertex.x = Math.random() * 2 - 1;
+        vertex.y = Math.random() * 2 - 1;
+        vertex.z = Math.random() * 2 - 1;
+        vertex.multiplyScalar( r );
+
+        vertices1.push( vertex.x, vertex.y, vertex.z );
+
+      }
+
+      for ( let i = 0; i < 1500; i ++ ) {
+
+        vertex.x = Math.random() * 2 - 1;
+        vertex.y = Math.random() * 2 - 1;
+        vertex.z = Math.random() * 2 - 1;
+        vertex.multiplyScalar( r );
+
+        vertices2.push( vertex.x, vertex.y, vertex.z );
+
+      }
+
+      starsGeometry[ 0 ].setAttribute( 'position', new Three.Float32BufferAttribute( vertices1, 3 ) );
+      starsGeometry[ 1 ].setAttribute( 'position', new Three.Float32BufferAttribute( vertices2, 3 ) );
+       
+      const starsMaterials = [
+        new Three.PointsMaterial( { color: 0x555555, size: 2, sizeAttenuation: false } ),
+        new Three.PointsMaterial( { color: 0x555555, size: 1, sizeAttenuation: false } ),
+        new Three.PointsMaterial( { color: 0x333333, size: 2, sizeAttenuation: false } ),
+        new Three.PointsMaterial( { color: 0x3a3a3a, size: 1, sizeAttenuation: false } ),
+        new Three.PointsMaterial( { color: 0x1a1a1a, size: 2, sizeAttenuation: false } ),
+        new Three.PointsMaterial( { color: 0x1a1a1a, size: 1, sizeAttenuation: false } )
+      ];
+
+      for ( let i = 10; i < 30; i ++ ) {
+
+        const stars = new Three.Points( starsGeometry[ i % 2 ], starsMaterials[ i % 6 ] );
+
+        stars.rotation.x = Math.random() * 6;
+        stars.rotation.y = Math.random() * 6;
+        stars.rotation.z = Math.random() * 6;
+        stars.scale.setScalar( i * 10 );
+
+        stars.matrixAutoUpdate = false;
+        stars.updateMatrix();
+        
+        this.scene.add( stars );
+
+      }
 
       const geometrys = [new Three.BufferGeometry(), new Three.BufferGeometry()];
       geometrys[0].setAttribute(
@@ -132,8 +192,8 @@ export default {
       ];
       this.stars1 = new Three.Points(geometrys[0], materials[0]);
       this.stars2 = new Three.Points(geometrys[1], materials[1]);
-      this.scene.add(this.stars1);
-      this.scene.add(this.stars2);
+      /*this.scene.add(this.stars1);
+      this.scene.add(this.stars2);*/
 
       //shootingS
       const geometryy = new Three.ConeGeometry( 0.3, 15, 32 );
