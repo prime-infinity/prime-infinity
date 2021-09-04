@@ -3,7 +3,17 @@
     <div>
 
         <div id="container">
+        </div>
 
+        <div class="" id="textFloat">
+
+            <div class="appearOne">
+                <h1 class="col-12" style="">prime-infinity</h1>
+            </div>
+            <div class="appearTwo">
+                <h4 class="col-12" style="">The Universe in a man</h4>
+            </div>
+        
         </div>
 
     </div>
@@ -15,7 +25,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/js/libs/stats.min.js';
-
+import { gsap } from "gsap";
 
 export default {
     name: 'Main',
@@ -29,15 +39,36 @@ export default {
             rayCaster:new THREE.Raycaster(),
             stats:null,
             radius:6371,
+            shootingS:null,
         }
     },
     methods:{
+        beginTextAni:function(){
+
+            setTimeout(() => {
+                gsap.to('.appearOne', {duration: 3, opacity: 1})
+
+                setTimeout(() => {
+                gsap.to('.appearTwo', {duration: 3, opacity: 1})
+                }, 2000);
+
+            }, 3000);
+
+
+            setTimeout(() => {
+
+                gsap.to(this.shootingS.position, {duration: 20,y:-20,x:-20,ease:"Expo.easeOut"});
+                
+            }, 5000);
+        
+        },
         init: function() {
             let container = document.getElementById('container');
             //camera
             this.camera = new THREE.PerspectiveCamera(25,container.clientWidth/container.clientHeight,0.1, 1e7);
             
-            this.camera.position.z = this.radius * 5;
+            //this.camera.position.z = this.radius * 5;
+            this.camera.position.z = 2;
 
             this.scene = new THREE.Scene();
             
@@ -46,13 +77,6 @@ export default {
             dirLight.position.set( - 1, 0, 1 ).normalize();
             this.scene.add(dirLight);
             
-            const geometryy = new THREE.SphereGeometry( this.radius, 100, 50 );
-
-            const meshPlanet = new THREE.Mesh( geometryy, new THREE.MeshBasicMaterial );
-            meshPlanet.rotation.y = 0;
-            meshPlanet.rotation.z = 0.41;   
-            //this.scene.add( meshPlanet );
-
 
             // stars
             const r = this.radius, starsGeometry = [ new THREE.BufferGeometry(), new THREE.BufferGeometry()];
@@ -112,6 +136,14 @@ export default {
 
             }
 
+            //shootingS
+            const sSgeometry = new THREE.ConeGeometry( 0.3, 15, 32 );
+            const materialy = new THREE.MeshBasicMaterial( {color: "white"} );
+            this.shootingS = new THREE.Mesh( sSgeometry, materialy );
+            this.shootingS.position.set(16,16,-54)
+            this.shootingS.scale.set(0.1,0.1,0.1);
+            this.shootingS.rotation.set(0,0,2.2)
+            this.scene.add( this.shootingS );
 
             //renderer
             this.renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -128,10 +160,10 @@ export default {
             this.stats = new Stats()
             container.appendChild( this.stats.dom );
 
-            const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+            /*const geometry = new THREE.BoxGeometry( 1, 1, 1 );
             const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
             const box = new THREE.Mesh( geometry, material );
-            this.scene.add( box );
+            this.scene.add( box );*/
         },
         resizeRenderer: function() {
             let container = document.getElementById('container');
@@ -150,6 +182,7 @@ export default {
       this.init();
       this.animate();
       window.addEventListener('resize', this.resizeRenderer)
+      this.beginTextAni();
     },
   }
 
