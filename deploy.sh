@@ -9,6 +9,6 @@ cd dist
 git init
 git add -A
 git commit -m 'new deployment'
-git push -f git@github.com:prime-infinity/prime-infinity.git main:gh-pages
+git push -f git@github.com:prime-infinity/prime-infinity.git master:gh-pages
 
 cd -

@@ -1,3 +1,7 @@
+
 module.exports = {
-    publicPath: '/prime-infinity/'
+    publicPath: process.env.NODE_ENV === 'production'
+    ? '/prime-infinity/'
+    : '/'
+
 }

@@ -17,12 +17,12 @@ export default {
 </script>
 
 <style>
-    @font-face {
-        font-family: mutablefont;
-        src: url(/font.ttf);
-    }
+    /*@font-face {
+      font-family: mutablefont;
+      src: url('/font.ttf');
+    }*/
     #app{
-        font-family: mutablefont;
+      font-family: 'Major Mono Display', monospace;
     }
     #container{
        height: 100vh;
