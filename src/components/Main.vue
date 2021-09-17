@@ -5,7 +5,7 @@
         <div id="container">
         </div>
 
-        <div class="" id="textFloat">
+        <!--<div class="" id="textFloat">
 
             <div class="appearOne">
                 <h1 class="col-12" style="">prime-infinity</h1>
@@ -14,7 +14,7 @@
                 <h4 class="col-12" style="">The Universe in a man</h4>
             </div>
         
-        </div>
+        </div>-->
 
     </div>
 
@@ -39,27 +39,20 @@ export default {
             rayCaster:new THREE.Raycaster(),
             stats:null,
             radius:6371,
-            shootingS:null,
         }
     },
     methods:{
         beginTextAni:function(){
 
-            setTimeout(() => {
+            /*setTimeout(() => {
                 gsap.to('.appearOne', {duration: 3, opacity: 1})
 
                 setTimeout(() => {
                 gsap.to('.appearTwo', {duration: 3, opacity: 1})
                 }, 2000);
 
-            }, 3000);
+            }, 3000);*/
 
-
-            setTimeout(() => {
-
-                gsap.to(this.shootingS.position, {duration: 20,y:-20,x:-20,ease:"Expo.easeOut"});
-                
-            }, 5000);
         
         },
         init: function() {
@@ -136,14 +129,6 @@ export default {
 
             }
 
-            //shootingS
-            const sSgeometry = new THREE.ConeGeometry( 0.3, 15, 32 );
-            const materialy = new THREE.MeshBasicMaterial( {color: "white"} );
-            this.shootingS = new THREE.Mesh( sSgeometry, materialy );
-            this.shootingS.position.set(16,16,-54)
-            this.shootingS.scale.set(0.1,0.1,0.1);
-            this.shootingS.rotation.set(0,0,2.2)
-            this.scene.add( this.shootingS );
 
             //renderer
             this.renderer = new THREE.WebGLRenderer( { antialias: true } );
