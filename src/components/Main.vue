@@ -5,17 +5,6 @@
         <div id="container">
         </div>
 
-        <!--<div class="" id="textFloat">
-
-            <div class="appearOne">
-                <h1 class="col-12" style="">prime-infinity</h1>
-            </div>
-            <div class="appearTwo">
-                <h4 class="col-12" style="">The Universe in a man</h4>
-            </div>
-        
-        </div>-->
-
     </div>
 
 </template>
@@ -25,7 +14,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/js/libs/stats.min.js';
-import { gsap } from "gsap";
+//import { gsap } from "gsap";
 
 export default {
     name: 'Main',
@@ -42,25 +31,12 @@ export default {
         }
     },
     methods:{
-        beginTextAni:function(){
-
-            /*setTimeout(() => {
-                gsap.to('.appearOne', {duration: 3, opacity: 1})
-
-                setTimeout(() => {
-                gsap.to('.appearTwo', {duration: 3, opacity: 1})
-                }, 2000);
-
-            }, 3000);*/
-
-        
-        },
         init: function() {
             let container = document.getElementById('container');
             //camera
             this.camera = new THREE.PerspectiveCamera(25,container.clientWidth/container.clientHeight,0.1, 1e7);
             
-            //this.camera.position.z = this.radius * 5;
+            //this.camera.position.z = this.radius * 200;
             this.camera.position.z = 2;
 
             this.scene = new THREE.Scene();
@@ -108,9 +84,9 @@ export default {
                 new THREE.PointsMaterial( { color: 0x555555, size: 2, sizeAttenuation: false } ),
                 new THREE.PointsMaterial( { color: 0x555555, size: 1, sizeAttenuation: false } ),
                 new THREE.PointsMaterial( { color: 0x333333, size: 2, sizeAttenuation: false } ),
-                new THREE.PointsMaterial( { color: 0x3a3a3a, size: 1, sizeAttenuation: false } ),
-                new THREE.PointsMaterial( { color: 0x1a1a1a, size: 2, sizeAttenuation: false } ),
-                new THREE.PointsMaterial( { color: 0x1a1a1a, size: 1, sizeAttenuation: false } )
+                new THREE.PointsMaterial( { color: 0xffffff, size: 1, sizeAttenuation: false } ),
+                new THREE.PointsMaterial( { color: 0xffffff, size: 2, sizeAttenuation: false } ),
+                new THREE.PointsMaterial( { color: 0xffffff, size: 1, sizeAttenuation: false } )
             ];
 
             for ( let i = 10; i < 30; i ++ ) {
@@ -167,7 +143,6 @@ export default {
       this.init();
       this.animate();
       window.addEventListener('resize', this.resizeRenderer)
-      this.beginTextAni();
     },
   }
 
