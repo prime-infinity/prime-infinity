@@ -5,6 +5,10 @@
         <div id="container">
         </div>
 
+        <div id="alongTimeAgo">
+            A long time ago in a galaxy far, far away..
+        </div>
+
     </div>
 
 </template>
@@ -148,3 +152,14 @@ export default {
 
 
 </script>
+<style scoped>
+    #alongTimeAgo{
+        position:fixed;
+        top:50%;
+        color:white;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width:70%;
+    }
+</style>
