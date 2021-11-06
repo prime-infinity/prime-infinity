@@ -8,7 +8,7 @@
         <div v-if="!endIntro">
 
             <div id="alongTimeAgo">
-                A long time ago in a galaxy far, far away..
+                A long time ago in a galaxy far, far away...
             </div>
 
             <div id="logo">
@@ -107,9 +107,11 @@
             <div id="board">  
                 <div id="content">
                     <p id="title">Episode I</p>
-                    <p id="subtitle">THE CODER'S MENACE</p>
+                    <p id="subtitle">DARTH PRIME-INFINITY</p>
                     <br>
-                    <p>Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.</p>        
+                    <!--<p>Turmoil has engulfed the Galactic Republic as Christopher Kade finishes studying to become a master in his trade.</p>-->
+                    <p>The Dev Galactic Republic is in grave danger. Prime-infinity, one a developer jedi knight has turned to the dark
+                    side of the force and has taken the alias of DARTH PRIME-INFINITY.Now he unleashes his dark powers on the Dev galaxy in a bid to control all. </p>      
                 </div>  
             </div>
 
