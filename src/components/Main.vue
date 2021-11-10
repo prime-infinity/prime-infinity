@@ -5,6 +5,7 @@
         <div id="container">
         </div>
 
+        <transition leave-active-class="animate__animated animate__fadeOut">
         <div v-if="!endIntro">
 
             <div id="alongTimeAgo">
@@ -116,10 +117,11 @@
             </div>
 
         </div>
+        </transition>
 
         <div id="skip-intro-main" @click="skipIntro">
             <img class="img-fluid lightsaber" src="icons/ls.svg" alt="lightsaber">
-            <span>skip intro</span>
+            <span v-if="!endIntro">skip intro</span>
         </div>
 
     </div>
@@ -259,27 +261,29 @@ export default {
         },
         introMischellnous:function(){
             setTimeout(() => {
-                //console.log("has ended")
                 this.endIntro = true
+                gsap.to('.lightsaber',{duration:0.2,display:`none`})
             }, 50000);
-
-            this.lightSaberAni[0] = gsap.timeline({repeat:-1})
-            this.lightSaberAni[0].to('.lightsaber',{rotation: 360,duration:4,})
 
         },
         skipIntro:function(){
 
+            
             let container = document.getElementById('container');
             let ch = container.clientHeight
             let cw = container.clientWidth
 
             this.lightSaberAni[1] = gsap.timeline()
-            this.lightSaberAni[1].to('.lightsaber',{scale:5, duration:1})
-            .to('.lightsaber',{x: cw, y: -ch, duration:1})
-            //this.lightSaberAni[1].to('.lightsaber',{y:-50, duration:1})
+            this.lightSaberAni[1].to('.lightsaber',{scale:3, duration:1})//big
+            .to('.lightsaber',{rotateY:180,duration:1}) //flip
+            .to('.lightsaber',{x: cw*2, y: -ch, duration:0.7})//fly off to right
+            .to('.lightsaber',{x: cw/2, y: -ch, duration:0.7})//fly off to left
+            .to('.lightsaber',{x: 0, y: ch + 10, duration:0.7})//fly down
 
-            /*gsap.to('.lightsaber',{scale:5,duration:1})
-            gsap.to('.lightsaber',{x: 400, y: -400,duration:1})*/
+            setTimeout(() => {
+                this.endIntro = true
+            }, 3000);
+          
         }
     },  
     mounted(){
