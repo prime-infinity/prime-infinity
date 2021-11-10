@@ -119,9 +119,8 @@
         </div>
         </transition>
 
-        <div id="skip-intro-main" @click="skipIntro">
-            <img class="img-fluid lightsaber" src="icons/ls.svg" alt="lightsaber">
-            <span v-if="!endIntro">skip intro</span>
+        <div v-if="!endIntro" id="skip-intro-main" @click="skipIntro">
+            <span>skip intro</span>
         </div>
 
     </div>
@@ -133,7 +132,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/js/libs/stats.min.js';
-import { gsap } from "gsap";
+//import { gsap } from "gsap";
 
 export default {
     name: 'Main',
@@ -262,28 +261,12 @@ export default {
         introMischellnous:function(){
             setTimeout(() => {
                 this.endIntro = true
-                gsap.to('.lightsaber',{duration:0.2,display:`none`})
             }, 50000);
 
         },
         skipIntro:function(){
-
-            
-            let container = document.getElementById('container');
-            let ch = container.clientHeight
-            let cw = container.clientWidth
-
-            this.lightSaberAni[1] = gsap.timeline()
-            this.lightSaberAni[1].to('.lightsaber',{scale:3, duration:1})//big
-            .to('.lightsaber',{rotateY:180,duration:1}) //flip
-            .to('.lightsaber',{x: cw*2, y: -ch, duration:0.7})//fly off to right
-            .to('.lightsaber',{x: cw/2, y: -ch, duration:0.7})//fly off to left
-            .to('.lightsaber',{x: 0, y: ch + 10, duration:0.7})//fly down
-
-            setTimeout(() => {
-                this.endIntro = true
-            }, 3000);
-          
+  
+            this.endIntro = true 
         }
     },  
     mounted(){
