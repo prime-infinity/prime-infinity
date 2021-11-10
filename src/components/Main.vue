@@ -117,6 +117,11 @@
 
         </div>
 
+        <div id="skip-intro-main" @click="skipIntro">
+            <img class="img-fluid lightsaber" src="icons/ls.svg" alt="lightsaber">
+            <span>skip intro</span>
+        </div>
+
     </div>
 
 </template>
@@ -126,7 +131,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/js/libs/stats.min.js';
-//import { gsap } from "gsap";
+import { gsap } from "gsap";
 
 export default {
     name: 'Main',
@@ -141,6 +146,7 @@ export default {
             stats:null,
             radius:6371,
             endIntro:false,
+            lightSaberAni:[],
         }
     },
     methods:{
@@ -251,15 +257,33 @@ export default {
             this.renderer.render(this.scene, this.camera);
             this.stats.end();
         },
-        aniTimer:function(){
+        introMischellnous:function(){
             setTimeout(() => {
-                console.log("has ended")
+                //console.log("has ended")
                 this.endIntro = true
             }, 50000);
+
+            this.lightSaberAni[0] = gsap.timeline({repeat:-1})
+            this.lightSaberAni[0].to('.lightsaber',{rotation: 360,duration:4,})
+
         },
-    },
+        skipIntro:function(){
+
+            let container = document.getElementById('container');
+            let ch = container.clientHeight
+            let cw = container.clientWidth
+
+            this.lightSaberAni[1] = gsap.timeline()
+            this.lightSaberAni[1].to('.lightsaber',{scale:5, duration:1})
+            .to('.lightsaber',{x: cw, y: -ch, duration:1})
+            //this.lightSaberAni[1].to('.lightsaber',{y:-50, duration:1})
+
+            /*gsap.to('.lightsaber',{scale:5,duration:1})
+            gsap.to('.lightsaber',{x: 400, y: -400,duration:1})*/
+        }
+    },  
     mounted(){
-        this.aniTimer()
+        this.introMischellnous()
       this.init();
       this.animate();
       window.addEventListener('resize', this.resizeRenderer)
@@ -269,6 +293,13 @@ export default {
 
 </script>
 <style scoped>
+    #skip-intro-main{
+        position:fixed;
+        bottom:0;
+        color:white;
+        cursor:pointer;
+        font-weight: bolder;
+    }
     #alongTimeAgo{
         font-size:x-large;
         font-weight: 400;
