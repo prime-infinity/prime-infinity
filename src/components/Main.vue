@@ -147,7 +147,6 @@ export default {
             stats:null,
             radius:6371,
             endIntro:false,
-            lightSaberAni:[],
         }
     },
     methods:{
