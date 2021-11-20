@@ -146,25 +146,39 @@ export default {
             rayCaster:new THREE.Raycaster(),
             stats:null,
             radius:6371,
-            endIntro:false,
+            endIntro:true,//here
         }
     },
     methods:{
         init: function() {
             let container = document.getElementById('container');
             //camera
-            this.camera = new THREE.PerspectiveCamera(25,container.clientWidth/container.clientHeight,0.1, 1e7);
+            this.camera = new THREE.PerspectiveCamera(60,container.clientWidth/container.clientHeight,0.1, 1e7);
             
             //this.camera.position.z = this.radius * 200;
-            this.camera.position.z = 2;
+            this.camera.position.z = 8;
 
             this.scene = new THREE.Scene();
             
             //DirectionalLight
             const dirLight = new THREE.DirectionalLight( 0xffffff );
             dirLight.position.set( - 1, 0, 1 ).normalize();
-            this.scene.add(dirLight);
+            //this.scene.add(dirLight);
             
+            //ambient light
+            const ambientlight = new THREE.AmbientLight(0xffffff, 0.1);
+            this.scene.add(ambientlight);
+
+            //point Light
+            const pointLight = new THREE.PointLight(0xffffff, 1);
+            pointLight.castShadow = true;
+            //pointLight.shadowCameraVisible = true;
+            pointLight.shadow.bias = 0.00001;
+            //pointLight.shadowDarkness = 0.2;
+            pointLight.shadow.mapSize.width = 2048;
+            pointLight.shadow.mapSize.height = 2048;
+            pointLight.position.set(-50, 20, -60);
+            this.scene.add(pointLight);
 
             // stars
             const r = this.radius, starsGeometry = [ new THREE.BufferGeometry(), new THREE.BufferGeometry()];
@@ -239,11 +253,33 @@ export default {
 
             this.stats = new Stats()
             container.appendChild( this.stats.dom );
+            
+            //sun object
+            const color = new THREE.Color("#FDB813");
+            const geometry = new THREE.IcosahedronGeometry(1, 15);
+            const material = new THREE.MeshBasicMaterial({ color: color });
+            const sun = new THREE.Mesh(geometry, material);
+            sun.position.set(-50, 20, -60);
+            //sphere.layers.set(1);
+            this.scene.add(sun);
 
-            /*const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-            const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-            const box = new THREE.Mesh( geometry, material );
-            this.scene.add( box );*/
+            //earth geometry
+            const earthgeometry = new THREE.SphereGeometry(0.98, 32, 32);
+
+            //earth material
+            const earthMaterial = new THREE.MeshPhongMaterial({
+                map: new THREE.TextureLoader().load("texture/earthmap1.jpg"),
+                bumpMap: new THREE.TextureLoader().load("texture/bump.jpg"),
+                bumpScale: 0.3,
+            });
+
+            //earthMesh
+            const earthMesh = new THREE.Mesh(earthgeometry, earthMaterial);
+            earthMesh.receiveShadow = true;
+            earthMesh.castShadow = true;
+            //earthMesh.layers.set(0);
+            this.scene.add(earthMesh);
+
         },
         resizeRenderer: function() {
             let container = document.getElementById('container');
