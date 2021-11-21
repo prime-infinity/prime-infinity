@@ -133,6 +133,9 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/js/libs/stats.min.js';
 //import { gsap } from "gsap";
+/*import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';*/
 
 export default {
     name: 'Main',
@@ -147,6 +150,7 @@ export default {
             stats:null,
             radius:6371,
             endIntro:true,//here
+            //bloomComposer:null,
         }
     },
     methods:{
@@ -155,16 +159,12 @@ export default {
             //camera
             this.camera = new THREE.PerspectiveCamera(60,container.clientWidth/container.clientHeight,0.1, 1e7);
             
-            //this.camera.position.z = this.radius * 200;
-            this.camera.position.z = 8;
+            //this.camera.position.z = 8;
+            this.camera.position.set(-50, 20, -60)
 
             this.scene = new THREE.Scene();
             
-            //DirectionalLight
-            const dirLight = new THREE.DirectionalLight( 0xffffff );
-            dirLight.position.set( - 1, 0, 1 ).normalize();
-            //this.scene.add(dirLight);
-            
+
             //ambient light
             const ambientlight = new THREE.AmbientLight(0xffffff, 0.1);
             this.scene.add(ambientlight);
@@ -172,9 +172,7 @@ export default {
             //point Light
             const pointLight = new THREE.PointLight(0xffffff, 1);
             pointLight.castShadow = true;
-            //pointLight.shadowCameraVisible = true;
             pointLight.shadow.bias = 0.00001;
-            //pointLight.shadowDarkness = 0.2;
             pointLight.shadow.mapSize.width = 2048;
             pointLight.shadow.mapSize.height = 2048;
             pointLight.position.set(-50, 20, -60);
@@ -243,7 +241,27 @@ export default {
             this.renderer = new THREE.WebGLRenderer( { antialias: true } );
             this.renderer.setPixelRatio( window.devicePixelRatio );
             this.renderer.setSize(container.clientWidth, container.clientHeight);
+            this.renderer.shadowMap.enabled = true;
+            this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(this.renderer.domElement);
+
+            //bloom renderer
+            /*const renderScene = new RenderPass(this.scene, this.camera);
+            const bloomPass = new UnrealBloomPass(
+            new THREE.Vector2(container.clientWidth, container.clientHeight),
+                1.5,
+                0.4,
+                0.85
+            );
+
+            bloomPass.threshold = 0;
+            bloomPass.strength = 2; //intensity of glow
+            bloomPass.radius = 0;
+            this.bloomComposer = new EffectComposer(this.renderer);
+            this.bloomComposer.setSize(container.clientWidth, container.clientHeight);
+            this.bloomComposer.renderToScreen = true;
+            this.bloomComposer.addPass(renderScene);
+            this.bloomComposer.addPass(bloomPass);*/
 
             this.controls = new OrbitControls(this.camera, this.renderer.domElement)
             this.controls.enableDamping = true;
@@ -268,9 +286,9 @@ export default {
 
             //earth material
             const earthMaterial = new THREE.MeshPhongMaterial({
-                map: new THREE.TextureLoader().load("texture/earthmap1.jpg"),
+                /*map: new THREE.TextureLoader().load("texture/earthmap1.jpg"),
                 bumpMap: new THREE.TextureLoader().load("texture/bump.jpg"),
-                bumpScale: 0.3,
+                bumpScale: 0.3,*/
             });
 
             //earthMesh
@@ -280,18 +298,55 @@ export default {
             //earthMesh.layers.set(0);
             this.scene.add(earthMesh);
 
+            //cloud geometry
+            const cloudgeometry = new THREE.SphereGeometry(1, 32, 32);
+
+            //cloud material
+            const cloudMaterial = new THREE.MeshPhongMaterial({
+                /*map: new THREE.TextureLoader().load("texture/earthCloud.png"),
+                transparent: true,*/
+            });
+
+            //cloudMesh
+            const cloud = new THREE.Mesh(cloudgeometry, cloudMaterial);
+            earthMesh.layers.set(0);
+            this.scene.add(cloud);
+
+            //moon geometry
+            const moongeometry = new THREE.SphereGeometry(0.1, 32, 32);
+
+            //moon material
+            const moonMaterial = new THREE.MeshPhongMaterial({
+               /* map: new THREE.TextureLoader().load("texture/moonmap4k.jpg"),
+                bumpMap: new THREE.TextureLoader().load("texture/moonbump4k.jpg"),
+                bumpScale: 0.02,*/
+            });
+
+            //moonMesh
+            const moonMesh = new THREE.Mesh(moongeometry, moonMaterial);
+            moonMesh.receiveShadow = true;
+            moonMesh.castShadow = true;
+            moonMesh.position.x = 2;
+            //moonMesh.layers.set(0);
+            this.scene.add(moonMesh);
+
+
         },
         resizeRenderer: function() {
             let container = document.getElementById('container');
             this.renderer.setSize(container.clientWidth, container.clientHeight);
             this.camera.aspect = container.clientWidth/container.clientHeight;
             this.camera.updateProjectionMatrix();
+            //this.bloomComposer.setSize(container.clientWidth/container.clientHeight);
         },
         animate: function() {
             requestAnimationFrame(this.animate);
             this.stats.begin();
+            /*this.bloomComposer.render();
+            this.renderer.clearDepth();*/
             this.renderer.render(this.scene, this.camera);
             this.stats.end();
+            this.camera.rotation.y += 0.001;            
         },
         introMischellnous:function(){
             setTimeout(() => {
