@@ -8,4 +8,4 @@ That is all Human (FOR NOW!)
 
 [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=prime-infinity&show_icons=true&theme=dracula)](https://github.com/anuraghazra/github-readme-stats)
 
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=prime-infinity)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=prime-infinity&theme=dracula)](https://github.com/anuraghazra/github-readme-stats)
