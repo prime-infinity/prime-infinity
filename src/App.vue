@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <!--<HelloPrime />-->
-    <Main />
+    <HelloPrime />
+    <!--<Main />-->
   </div>
 </template>
 
 <script>
-import Main from './components/Main.vue'
+import HelloPrime from './components/HelloPrime.vue'
 
 export default {
   name: 'App',
   components: {
-    Main
+    HelloPrime
   }
 }
 </script>
@@ -31,7 +31,7 @@ export default {
      
         position:fixed;
         top:50%;
-        color:white;
+        /*color:white;*/
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;

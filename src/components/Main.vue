@@ -133,9 +133,6 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/js/libs/stats.min.js';
 //import { gsap } from "gsap";
-/*import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';*/
 
 export default {
     name: 'Main',
@@ -150,7 +147,6 @@ export default {
             stats:null,
             radius:6371,
             endIntro:true,//here
-            //bloomComposer:null,
         }
     },
     methods:{
@@ -160,7 +156,8 @@ export default {
             this.camera = new THREE.PerspectiveCamera(60,container.clientWidth/container.clientHeight,0.1, 1e7);
             
             //this.camera.position.z = 8;
-            this.camera.position.set(-50, 20, -60)
+            //this.camera.position.set(-50, 20, -60)
+            this.camera.position.set(0, 0, 0)
 
             this.scene = new THREE.Scene();
             
@@ -197,7 +194,7 @@ export default {
 
             }
 
-            for ( let i = 0; i < 1500; i ++ ) {
+            for ( let i = 0; i < 250; i ++ ) {
 
                 vertex.x = Math.random() * 2 - 1;
                 vertex.y = Math.random() * 2 - 1;
@@ -245,24 +242,6 @@ export default {
             this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             container.appendChild(this.renderer.domElement);
 
-            //bloom renderer
-            /*const renderScene = new RenderPass(this.scene, this.camera);
-            const bloomPass = new UnrealBloomPass(
-            new THREE.Vector2(container.clientWidth, container.clientHeight),
-                1.5,
-                0.4,
-                0.85
-            );
-
-            bloomPass.threshold = 0;
-            bloomPass.strength = 2; //intensity of glow
-            bloomPass.radius = 0;
-            this.bloomComposer = new EffectComposer(this.renderer);
-            this.bloomComposer.setSize(container.clientWidth, container.clientHeight);
-            this.bloomComposer.renderToScreen = true;
-            this.bloomComposer.addPass(renderScene);
-            this.bloomComposer.addPass(bloomPass);*/
-
             this.controls = new OrbitControls(this.camera, this.renderer.domElement)
             this.controls.enableDamping = true;
             this.controls.dampingFactor = 0.05;
@@ -295,7 +274,6 @@ export default {
             const earthMesh = new THREE.Mesh(earthgeometry, earthMaterial);
             earthMesh.receiveShadow = true;
             earthMesh.castShadow = true;
-            //earthMesh.layers.set(0);
             this.scene.add(earthMesh);
 
             //cloud geometry
@@ -327,7 +305,6 @@ export default {
             moonMesh.receiveShadow = true;
             moonMesh.castShadow = true;
             moonMesh.position.x = 2;
-            //moonMesh.layers.set(0);
             this.scene.add(moonMesh);
 
 
@@ -337,13 +314,10 @@ export default {
             this.renderer.setSize(container.clientWidth, container.clientHeight);
             this.camera.aspect = container.clientWidth/container.clientHeight;
             this.camera.updateProjectionMatrix();
-            //this.bloomComposer.setSize(container.clientWidth/container.clientHeight);
         },
         animate: function() {
             requestAnimationFrame(this.animate);
             this.stats.begin();
-            /*this.bloomComposer.render();
-            this.renderer.clearDepth();*/
             this.renderer.render(this.scene, this.camera);
             this.stats.end();
             this.camera.rotation.y += 0.001;            
