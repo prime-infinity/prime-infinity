@@ -6,6 +6,8 @@ I belive i can do whatever i set my mind to (i'm a bit idiotic and hard-headed),
 I aim to be the best in whatever i do,
 That is all Human (FOR NOW!),
 
+[![GitHub Streak](https://streak-stats.demolab.com/?user=prime-infinity&theme=dark)](https://git.io/streak-stats)
+
 [![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=prime-infinity&show_icons=true&theme=dracula)](https://github.com/anuraghazra/github-readme-stats)
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=prime-infinity&theme=dracula&langs_count=10)](https://github.com/anuraghazra/github-readme-stats)
