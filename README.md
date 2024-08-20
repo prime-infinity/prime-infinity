@@ -1,10 +1,5 @@
-HELLO Humans,
-I am prime - (Human name:Akonofua Osamede),
-Developer - Manipulator of the power of creation itself,
-Primarily: FullStack web developer,
-I belive i can do whatever i set my mind to (i'm a bit idiotic and hard-headed),
-I aim to be the best in whatever i do,
-That is all Human (FOR NOW!),
+Developer - Manipulator of the power of creation,
+Primarily: FullStack software Engineer, building apps and analysing data
 
 [![GitHub Streak](https://streak-stats.demolab.com/?user=prime-infinity&theme=dark)](https://git.io/streak-stats)
 
